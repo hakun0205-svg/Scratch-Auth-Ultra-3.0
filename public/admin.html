@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Scratch Auth — 管理者ダッシュボード</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    min-height:100%;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        "Noto Sans JP",
+        Arial,
+        sans-serif;
+
+    color:white;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255,90,120,.25),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(80,80,255,.25),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #0b0d18,
+            #16102b,
+            #0c1222
+        );
+}
+
+.page{
+    max-width:900px;
+    margin:0 auto;
+    padding:32px 20px 60px;
+}
+
+/* ---- Login ---- */
+
+.loginCard{
+
+    max-width:420px;
+
+    margin:80px auto 0;
+
+    padding:34px;
+
+    border-radius:26px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    backdrop-filter:blur(20px);
+
+    text-align:center;
+}
+
+.loginCard h1{
+    margin:0 0 6px;
+    font-size:24px;
+}
+
+.loginCard p{
+    color:rgba(255,255,255,.45);
+    font-size:14px;
+    margin:0 0 24px;
+}
+
+.input{
+
+    width:100%;
+
+    height:50px;
+
+    border-radius:13px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    background:
+        rgba(0,0,0,.2);
+
+    color:white;
+
+    outline:none;
+
+    padding:0 16px;
+
+    font-size:15px;
+}
+
+.input:focus{
+    border-color:#8177ff;
+    box-shadow:0 0 0 4px rgba(108,99,255,.15);
+}
+
+.button{
+
+    width:100%;
+
+    height:50px;
+
+    border:0;
+
+    border-radius:13px;
+
+    margin-top:12px;
+
+    background:
+        linear-gradient(135deg,#ff6680,#6c63ff);
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.button:hover{
+    opacity:.88;
+}
+
+.errMsg{
+
+    margin-top:12px;
+
+    padding:11px 14px;
+
+    border-radius:11px;
+
+    background:rgba(255,77,79,.13);
+
+    font-size:13px;
+
+    color:#ff8080;
+}
+
+/* ---- Dashboard ---- */
+
+.topBar{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    flex-wrap:wrap;
+
+    gap:14px;
+
+    margin-bottom:28px;
+}
+
+.topBar h1{
+    margin:0;
+    font-size:26px;
+}
+
+.logoutBtn{
+
+    height:40px;
+
+    padding:0 18px;
+
+    border:0;
+
+    border-radius:11px;
+
+    background:rgba(255,255,255,.08);
+
+    color:rgba(255,255,255,.65);
+
+    font-size:13px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.logoutBtn:hover{
+    background:rgba(255,255,255,.13);
+    color:white;
+}
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+
+    gap:14px;
+
+    margin-bottom:28px;
+}
+
+.statCard{
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    text-align:center;
+}
+
+.statValue{
+
+    font-size:40px;
+
+    font-weight:900;
+
+    background:
+        linear-gradient(135deg,#ff6680,#6c63ff);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    background-clip:text;
+}
+
+.statLabel{
+
+    margin-top:5px;
+
+    font-size:13px;
+
+    color:rgba(255,255,255,.45);
+}
+
+.section{
+
+    margin-bottom:28px;
+}
+
+.sectionHead{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:14px;
+}
+
+.sectionTitle{
+
+    font-size:16px;
+
+    font-weight:900;
+}
+
+.refreshBtn{
+
+    height:34px;
+
+    padding:0 14px;
+
+    border:0;
+
+    border-radius:9px;
+
+    background:rgba(255,255,255,.07);
+
+    color:rgba(255,255,255,.6);
+
+    font-size:12px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.refreshBtn:hover{
+    background:rgba(255,255,255,.12);
+    color:white;
+}
+
+.table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+.table th,
+.table td{
+
+    padding:12px 14px;
+
+    text-align:left;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.07);
+
+    font-size:13px;
+}
+
+.table th{
+
+    font-weight:900;
+
+    color:rgba(255,255,255,.4);
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.05em;
+}
+
+.table tbody tr:hover{
+
+    background:rgba(255,255,255,.04);
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:3px 10px;
+
+    border-radius:999px;
+
+    font-size:11px;
+
+    font-weight:800;
+}
+
+.badge.comment{
+
+    background:rgba(108,99,255,.18);
+
+    color:#a99cff;
+}
+
+.badge.cloud{
+
+    background:rgba(46,204,113,.12);
+
+    color:#8ff0b1;
+}
+
+.revokeBtn{
+
+    height:28px;
+
+    padding:0 11px;
+
+    border:0;
+
+    border-radius:7px;
+
+    background:rgba(255,77,79,.14);
+
+    color:#ff8080;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.revokeBtn:hover{
+    background:rgba(255,77,79,.28);
+}
+
+.empty{
+
+    text-align:center;
+
+    padding:28px;
+
+    color:rgba(255,255,255,.3);
+
+    font-size:13px;
+}
+
+.tableWrap{
+
+    border-radius:17px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.09);
+
+    overflow:hidden;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.refreshing{
+    opacity:.5;
+    pointer-events:none;
+}
+
+.lastRefresh{
+
+    font-size:11px;
+
+    color:rgba(255,255,255,.3);
+
+    margin-bottom:22px;
+}
+
+@media(max-width:600px){
+
+    .table th:nth-child(3),
+    .table td:nth-child(3){
+        display:none;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- ==========================================
+     LOGIN
+========================================== -->
+
+<div id="loginCard" class="loginCard">
+
+<h1>🔐 管理者ログイン</h1>
+
+<p>ADMIN_KEY を入力してください</p>
+
+<input
+    id="keyInput"
+    class="input"
+    type="password"
+    placeholder="Admin Key"
+    autocomplete="current-password"
+>
+
+<button
+    id="loginBtn"
+    class="button"
+>
+ログイン
+</button>
+
+<div
+    id="loginErr"
+    class="errMsg hidden"
+>
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     DASHBOARD
+========================================== -->
+
+<div
+    id="dashboard"
+    class="page hidden"
+>
+
+<div class="topBar">
+
+<h1>⚙️ 管理者ダッシュボード</h1>
+
+<button
+    id="adminLogout"
+    class="logoutBtn"
+>
+ログアウト
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="statCard">
+
+<div
+    id="sActiveSessions"
+    class="statValue"
+>
+—
+</div>
+
+<div class="statLabel">
+アクティブセッション
+</div>
+
+</div>
+
+<div class="statCard">
+
+<div
+    id="sPendingAuths"
+    class="statValue"
+>
+—
+</div>
+
+<div class="statLabel">
+認証待機中
+</div>
+
+</div>
+
+<div class="statCard">
+
+<div
+    id="sTotalLogs"
+    class="statValue"
+>
+—
+</div>
+
+<div class="statLabel">
+認証ログ（今回の起動）
+</div>
+
+</div>
+
+</div>
+
+
+<div
+    id="lastRefresh"
+    class="lastRefresh"
+>
+</div>
+
+
+<!-- Sessions -->
+
+<div class="section">
+
+<div class="sectionHead">
+
+<div class="sectionTitle">
+🟢 アクティブセッション
+</div>
+
+<button
+    id="refreshBtn"
+    class="refreshBtn"
+>
+↻ 更新
+</button>
+
+</div>
+
+<div class="tableWrap">
+
+<table class="table">
+
+<thead>
+<tr>
+<th>ユーザー名</th>
+<th>認証方法</th>
+<th>有効期限</th>
+<th>操作</th>
+</tr>
+</thead>
+
+<tbody id="sessionBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- Pending -->
+
+<div class="section">
+
+<div class="sectionHead">
+
+<div class="sectionTitle">
+⏳ 認証待機中
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table class="table">
+
+<thead>
+<tr>
+<th>ユーザー名</th>
+<th>認証方法</th>
+<th>有効期限</th>
+</tr>
+</thead>
+
+<tbody id="pendingBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- Auth Log -->
+
+<div class="section">
+
+<div class="sectionHead">
+
+<div class="sectionTitle">
+📋 認証ログ（直近100件）
+</div>
+
+</div>
+
+<div class="tableWrap">
+
+<table class="table">
+
+<thead>
+<tr>
+<th>ユーザー名</th>
+<th>認証方法</th>
+<th>日時</th>
+</tr>
+</thead>
+
+<tbody id="logBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* ==========================================
+   Elements
+========================================== */
+
+const loginCard =
+    document.getElementById("loginCard");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+const keyInput =
+    document.getElementById("keyInput");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const loginErr =
+    document.getElementById("loginErr");
+
+const adminLogout =
+    document.getElementById("adminLogout");
+
+const refreshBtn =
+    document.getElementById("refreshBtn");
+
+const sessionBody =
+    document.getElementById("sessionBody");
+
+const pendingBody =
+    document.getElementById("pendingBody");
+
+const logBody =
+    document.getElementById("logBody");
+
+const sActiveSessions =
+    document.getElementById("sActiveSessions");
+
+const sPendingAuths =
+    document.getElementById("sPendingAuths");
+
+const sTotalLogs =
+    document.getElementById("sTotalLogs");
+
+const lastRefreshEl =
+    document.getElementById("lastRefresh");
+
+
+/* ==========================================
+   State
+========================================== */
+
+let adminKey = "";
+
+let autoRefreshTimer = null;
+
+
+/* ==========================================
+   Utils
+========================================== */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;");
+}
+
+function formatTime(ms){
+
+    const d = new Date(ms);
+
+    return d.toLocaleString("ja-JP",{
+
+        month:"2-digit",
+        day:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+    });
+}
+
+function methodBadge(method){
+
+    const label =
+        method === "cloud"
+            ? "☁️ クラウド変数"
+            : "💬 コメント";
+
+    return `<span class="badge ${escapeHtml(method)}">${label}</span>`;
+}
+
+function showError(msg){
+
+    loginErr.textContent = msg;
+
+    loginErr.classList.remove("hidden");
+}
+
+
+/* ==========================================
+   API
+========================================== */
+
+async function adminApi(path){
+
+    const response =
+        await fetch(path, {
+            headers:{
+                Authorization:
+                    "Bearer " + adminKey
+            }
+        });
+
+
+    if(response.status === 401){
+
+        throw new Error("UNAUTHORIZED");
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if(!data.success){
+
+        throw new Error(
+            data.message || "APIエラー"
+        );
+    }
+
+
+    return data;
+}
+
+
+/* ==========================================
+   Login
+========================================== */
+
+async function doLogin(){
+
+    const key =
+        keyInput.value.trim();
+
+
+    if(!key){
+
+        showError(
+            "Admin Key を入力してください。"
+        );
+
+        return;
+    }
+
+
+    loginBtn.disabled = true;
+
+    loginBtn.textContent = "確認中…";
+
+    loginErr.classList.add("hidden");
+
+
+    try{
+
+        adminKey = key;
+
+        await adminApi("/api/admin/stats");
+
+        /* Success */
+
+        sessionStorage.setItem(
+            "adminKey",
+            key
+        );
+
+        loginCard.classList.add("hidden");
+
+        dashboard.classList.remove("hidden");
+
+        loadStats();
+
+        startAutoRefresh();
+
+
+    }catch(error){
+
+        adminKey = "";
+
+        showError(
+            error.message === "UNAUTHORIZED"
+                ? "Admin Key が正しくありません。"
+                : "接続に失敗しました。"
+        );
+
+    }finally{
+
+        loginBtn.disabled = false;
+
+        loginBtn.textContent = "ログイン";
+    }
+}
+
+
+/* ==========================================
+   Stats
+========================================== */
+
+async function loadStats(){
+
+    refreshBtn.classList.add("refreshing");
+
+
+    try{
+
+        const data =
+            await adminApi(
+                "/api/admin/stats"
+            );
+
+
+        sActiveSessions.textContent =
+            data.stats.activeSessions;
+
+        sPendingAuths.textContent =
+            data.stats.pendingAuths;
+
+        sTotalLogs.textContent =
+            data.stats.totalAuthLogs;
+
+
+        lastRefreshEl.textContent =
+            "最終更新: " +
+            new Date().toLocaleTimeString("ja-JP");
+
+
+        renderSessions(data.sessions);
+
+        renderPending(data.pending);
+
+        renderLog(data.recentAuths);
+
+
+    }catch(error){
+
+        if(error.message === "UNAUTHORIZED"){
+
+            doAdminLogout();
+        }
+
+    }finally{
+
+        refreshBtn.classList.remove(
+            "refreshing"
+        );
+    }
+}
+
+
+/* ==========================================
+   Render
+========================================== */
+
+function renderSessions(sessions){
+
+    if(!sessions.length){
+
+        sessionBody.innerHTML =
+            '<tr><td colspan="4" class="empty">アクティブなセッションはありません</td></tr>';
+
+        return;
+    }
+
+
+    sessionBody.innerHTML =
+        sessions.map(s => `
+            <tr>
+                <td><b>${escapeHtml(s.username)}</b></td>
+                <td>${methodBadge(s.method)}</td>
+                <td>${formatTime(s.expiresAt)}</td>
+                <td>
+                    <button
+                        class="revokeBtn"
+                        onclick="revokeSession('${escapeHtml(s.token)}')"
+                    >
+                        失効
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+}
+
+
+function renderPending(pending){
+
+    if(!pending.length){
+
+        pendingBody.innerHTML =
+            '<tr><td colspan="3" class="empty">待機中の認証はありません</td></tr>';
+
+        return;
+    }
+
+
+    pendingBody.innerHTML =
+        pending.map(p => `
+            <tr>
+                <td><b>${escapeHtml(p.username)}</b></td>
+                <td>${methodBadge(p.method)}</td>
+                <td>${formatTime(p.expiresAt)}</td>
+            </tr>
+        `).join("");
+}
+
+
+function renderLog(logs){
+
+    if(!logs.length){
+
+        logBody.innerHTML =
+            '<tr><td colspan="3" class="empty">認証ログはまだありません</td></tr>';
+
+        return;
+    }
+
+
+    logBody.innerHTML =
+        logs.map(l => `
+            <tr>
+                <td><b>${escapeHtml(l.username)}</b></td>
+                <td>${methodBadge(l.method)}</td>
+                <td>${formatTime(l.timestamp)}</td>
+            </tr>
+        `).join("");
+}
+
+
+/* ==========================================
+   Revoke
+========================================== */
+
+async function revokeSession(tokenPrefix){
+
+    const clean =
+        tokenPrefix.replace("…", "");
+
+
+    if(
+        !confirm(
+            `セッション (${clean}…) を失効しますか？`
+        )
+    ){
+        return;
+    }
+
+
+    try{
+
+        await fetch(
+            "/api/admin/sessions/" +
+            encodeURIComponent(clean),
+            {
+                method:"DELETE",
+                headers:{
+                    Authorization:
+                        "Bearer " + adminKey
+                }
+            }
+        );
+
+        loadStats();
+
+    }catch(error){
+
+        alert("失効に失敗しました。");
+    }
+}
+
+
+/* ==========================================
+   Auto refresh
+========================================== */
+
+function startAutoRefresh(){
+
+    stopAutoRefresh();
+
+    autoRefreshTimer =
+        setInterval(
+            loadStats,
+            15000
+        );
+}
+
+function stopAutoRefresh(){
+
+    if(autoRefreshTimer){
+
+        clearInterval(autoRefreshTimer);
+
+        autoRefreshTimer = null;
+    }
+}
+
+
+/* ==========================================
+   Admin Logout
+========================================== */
+
+function doAdminLogout(){
+
+    adminKey = "";
+
+    sessionStorage.removeItem("adminKey");
+
+    stopAutoRefresh();
+
+    dashboard.classList.add("hidden");
+
+    loginCard.classList.remove("hidden");
+
+    keyInput.value = "";
+}
+
+
+/* ==========================================
+   Events
+========================================== */
+
+loginBtn.addEventListener(
+    "click",
+    doLogin
+);
+
+keyInput.addEventListener(
+    "keydown",
+    e => {
+        if(e.key === "Enter") doLogin();
+    }
+);
+
+adminLogout.addEventListener(
+    "click",
+    doAdminLogout
+);
+
+refreshBtn.addEventListener(
+    "click",
+    loadStats
+);
+
+
+/* ==========================================
+   Init — セッション復元
+========================================== */
+
+const savedKey =
+    sessionStorage.getItem("adminKey");
+
+
+if(savedKey){
+
+    adminKey = savedKey;
+
+    keyInput.value = savedKey;
+
+    adminApi("/api/admin/stats")
+        .then(() => {
+
+            loginCard.classList.add("hidden");
+
+            dashboard.classList.remove("hidden");
+
+            loadStats();
+
+            startAutoRefresh();
+        })
+        .catch(() => {
+
+            adminKey = "";
+
+            sessionStorage.removeItem("adminKey");
+        });
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Scratch Auth Ultra</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,
+body{
+    margin:0;
+    min-height:100%;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        "Noto Sans JP",
+        Arial,
+        sans-serif;
+
+    color:white;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255,90,120,.4),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(80,80,255,.4),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #0b0d18,
+            #16102b,
+            #0c1222
+        );
+}
+
+.app{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.card{
+
+    width:
+        min(540px,100%);
+
+    padding:34px;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    backdrop-filter:
+        blur(25px);
+
+    box-shadow:
+        0 30px 90px
+        rgba(0,0,0,.4);
+}
+
+.logo{
+
+    width:72px;
+    height:72px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    margin:0 auto 18px;
+
+    border-radius:22px;
+
+    font-size:36px;
+
+    font-weight:900;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6680,
+            #6c63ff
+        );
+}
+
+h1{
+
+    margin:0;
+
+    text-align:center;
+
+    font-size:30px;
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:
+        rgba(255,255,255,.55);
+
+    line-height:1.7;
+
+    margin:
+        10px 0 26px;
+}
+
+.tabs{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:8px;
+
+    margin-bottom:20px;
+}
+
+.tab{
+
+    height:52px;
+
+    border:0;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:
+        rgba(255,255,255,.55);
+
+    cursor:pointer;
+
+    font-weight:800;
+
+    font-size:14px;
+}
+
+.tab.active{
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6680,
+            #6c63ff
+        );
+
+    color:white;
+}
+
+.label{
+
+    display:block;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+}
+
+.input{
+
+    width:100%;
+
+    height:55px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    background:
+        rgba(0,0,0,.2);
+
+    color:white;
+
+    outline:none;
+
+    padding:
+        0 16px;
+
+    font-size:16px;
+}
+
+.input:focus{
+
+    border-color:
+        #8177ff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(108,99,255,.15);
+}
+
+.button{
+
+    width:100%;
+
+    height:55px;
+
+    border:0;
+
+    border-radius:15px;
+
+    margin-top:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6680,
+            #6c63ff
+        );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
+.secondary{
+
+    background:
+        rgba(255,255,255,.08);
+}
+
+.codeBox{
+
+    margin-top:20px;
+
+    padding:22px;
+
+    border-radius:20px;
+
+    background:
+        rgba(0,0,0,.2);
+
+    text-align:center;
+}
+
+.codeLabel{
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:13px;
+}
+
+.code{
+
+    margin-top:10px;
+
+    font-size:31px;
+
+    font-weight:900;
+
+    letter-spacing:4px;
+
+    word-break:break-all;
+}
+
+.timer{
+
+    margin-top:10px;
+
+    color:
+        rgba(255,255,255,.55);
+
+    font-size:13px;
+}
+
+.instruction{
+
+    margin-top:18px;
+
+    padding:17px;
+
+    border-radius:17px;
+
+    background:
+        rgba(108,99,255,.1);
+
+    border:
+        1px solid
+        rgba(108,99,255,.2);
+
+    line-height:1.8;
+
+    font-size:14px;
+}
+
+.project{
+
+    margin-top:16px;
+
+    display:flex;
+
+    gap:14px;
+
+    padding:14px;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+.project img{
+
+    width:80px;
+
+    height:60px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+}
+
+.projectTitle{
+
+    font-weight:900;
+}
+
+.projectOwner{
+
+    margin-top:5px;
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:13px;
+}
+
+.status{
+
+    margin-top:16px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    background:
+        rgba(108,99,255,.12);
+}
+
+.status.error{
+
+    background:
+        rgba(255,77,79,.14);
+}
+
+.status.success{
+
+    background:
+        rgba(46,204,113,.14);
+}
+
+.hidden{
+
+    display:none !important;
+}
+
+.success{
+
+    text-align:center;
+}
+
+.successIcon{
+
+    width:90px;
+    height:90px;
+
+    margin:
+        0 auto 20px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:42px;
+
+    background:
+        rgba(46,204,113,.15);
+
+    border:
+        2px solid
+        rgba(46,204,113,.35);
+}
+
+.avatar{
+
+    width:100px;
+
+    height:100px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    margin-bottom:15px;
+
+    border:
+        4px solid
+        rgba(255,255,255,.2);
+}
+
+.successUsername{
+
+    font-size:27px;
+
+    font-weight:900;
+}
+
+.successMethod{
+
+    margin-top:10px;
+
+    color:
+        rgba(255,255,255,.55);
+}
+
+.badge{
+
+    display:inline-block;
+
+    margin-top:15px;
+
+    padding:
+        8px 15px;
+
+    border-radius:999px;
+
+    background:
+        rgba(46,204,113,.12);
+
+    color:#8ff0b1;
+
+    font-size:13px;
+
+    font-weight:800;
+}
+
+.footer{
+
+    margin-top:22px;
+
+    text-align:center;
+
+    color:
+        rgba(255,255,255,.3);
+
+    font-size:11px;
+}
+
+.quickSignIn{
+
+    margin-bottom:18px;
+
+    padding:14px 16px;
+
+    border-radius:17px;
+
+    background:
+        rgba(108,99,255,.1);
+
+    border:
+        1px solid
+        rgba(108,99,255,.22);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.quickAvatar{
+
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        2px solid
+        rgba(255,255,255,.15);
+
+    flex-shrink:0;
+}
+
+.quickInfo{
+
+    flex:1;
+
+    min-width:0;
+}
+
+.quickName{
+
+    font-weight:900;
+
+    font-size:14px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+}
+
+.quickHint{
+
+    font-size:12px;
+
+    color:
+        rgba(255,255,255,.45);
+
+    margin-top:2px;
+}
+
+.quickBtn{
+
+    flex-shrink:0;
+
+    height:36px;
+
+    padding:0 14px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6680,
+            #6c63ff
+        );
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.quickBtn:hover{
+
+    opacity:.88;
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:24px 18px;
+    }
+
+    .code{
+        font-size:23px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="card">
+
+
+<!-- ==========================================
+     LOGIN
+========================================== -->
+
+<div id="loginView">
+
+<div class="logo">
+S
+</div>
+
+<h1>
+Scratch Auth
+</h1>
+
+<div class="subtitle">
+Scratchパスワードを入力せずに<br>
+Scratchアカウントを認証します
+</div>
+
+
+<!-- QUICK SIGN IN -->
+
+<div
+    id="quickSignIn"
+    class="quickSignIn hidden"
+>
+
+<img
+    id="quickAvatar"
+    class="quickAvatar"
+    alt=""
+>
+
+<div class="quickInfo">
+
+<div
+    id="quickName"
+    class="quickName"
+>
+</div>
+
+<div class="quickHint">
+前回ログインしたアカウント
+</div>
+
+</div>
+
+<button
+    id="quickBtn"
+    class="quickBtn"
+>
+クイックサインイン
+</button>
+
+</div>
+
+
+<!-- METHODS -->
+
+<div class="tabs">
+
+<button
+    id="commentTab"
+    class="tab active"
+>
+💬 コメント認証
+</button>
+
+<button
+    id="cloudTab"
+    class="tab"
+>
+☁️ クラウド変数
+</button>
+
+</div>
+
+
+<label class="label">
+Scratch Username
+</label>
+
+<input
+    id="username"
+    class="input"
+    maxlength="50"
+    autocomplete="username"
+    placeholder="Scratchユーザー名"
+>
+
+
+<button
+    id="startButton"
+    class="button"
+>
+認証コードを発行
+</button>
+
+
+<div
+    id="verifyArea"
+    class="hidden"
+>
+
+
+<div class="codeBox">
+
+<div class="codeLabel">
+あなたの認証コード
+</div>
+
+<div
+    id="code"
+    class="code"
+>
+</div>
+
+<div
+    id="timer"
+    class="timer"
+>
+</div>
+
+</div>
+
+
+<div
+    id="instruction"
+    class="instruction"
+>
+</div>
+
+
+<div class="project">
+
+<img
+    id="thumbnail"
+    alt=""
+>
+
+<div>
+
+<div
+    id="projectTitle"
+    class="projectTitle"
+>
+認証プロジェクト
+</div>
+
+<div
+    id="projectOwner"
+    class="projectOwner"
+>
+</div>
+
+</div>
+
+</div>
+
+
+<button
+    id="openProject"
+    class="button"
+>
+Scratch認証プロジェクトを開く
+</button>
+
+
+<button
+    id="checkButton"
+    class="button secondary"
+>
+認証を確認
+</button>
+
+
+<div
+    id="status"
+    class="status"
+>
+</div>
+
+
+</div>
+
+
+<div class="footer">
+Scratch Auth Ultra
+</div>
+
+</div>
+
+
+<!-- ==========================================
+     SUCCESS
+========================================== -->
+
+<div
+    id="successView"
+    class="success hidden"
+>
+
+<div class="successIcon">
+✓
+</div>
+
+<img
+    id="avatar"
+    class="avatar"
+    alt=""
+>
+
+<div
+    id="successUsername"
+    class="successUsername"
+>
+</div>
+
+<div
+    id="successMethod"
+    class="successMethod"
+>
+</div>
+
+<div class="badge">
+● 認証済み
+</div>
+
+<button
+    id="logout"
+    class="button secondary"
+>
+ログアウト
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* ==========================================
+   Elements
+========================================== */
+
+const username =
+    document.getElementById(
+        "username"
+    );
+
+const startButton =
+    document.getElementById(
+        "startButton"
+    );
+
+const commentTab =
+    document.getElementById(
+        "commentTab"
+    );
+
+const cloudTab =
+    document.getElementById(
+        "cloudTab"
+    );
+
+const verifyArea =
+    document.getElementById(
+        "verifyArea"
+    );
+
+const code =
+    document.getElementById(
+        "code"
+    );
+
+const timer =
+    document.getElementById(
+        "timer"
+    );
+
+const instruction =
+    document.getElementById(
+        "instruction"
+    );
+
+const openProject =
+    document.getElementById(
+        "openProject"
+    );
+
+const checkButton =
+    document.getElementById(
+        "checkButton"
+    );
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+const thumbnail =
+    document.getElementById(
+        "thumbnail"
+    );
+
+const projectTitle =
+    document.getElementById(
+        "projectTitle"
+    );
+
+const projectOwner =
+    document.getElementById(
+        "projectOwner"
+    );
+
+const loginView =
+    document.getElementById(
+        "loginView"
+    );
+
+const successView =
+    document.getElementById(
+        "successView"
+    );
+
+const avatar =
+    document.getElementById(
+        "avatar"
+    );
+
+const successUsername =
+    document.getElementById(
+        "successUsername"
+    );
+
+const successMethod =
+    document.getElementById(
+        "successMethod"
+    );
+
+const logout =
+    document.getElementById(
+        "logout"
+    );
+
+const quickSignIn =
+    document.getElementById(
+        "quickSignIn"
+    );
+
+const quickAvatar =
+    document.getElementById(
+        "quickAvatar"
+    );
+
+const quickName =
+    document.getElementById(
+        "quickName"
+    );
+
+const quickBtn =
+    document.getElementById(
+        "quickBtn"
+    );
+
+
+/* ==========================================
+   State
+========================================== */
+
+let method =
+    "comment";
+
+let currentUsername =
+    "";
+
+let currentCode =
+    "";
+
+let expiresAt =
+    0;
+
+let pollTimer =
+    null;
+
+let countdownTimer =
+    null;
+
+let checking =
+    false;
+
+
+/* ==========================================
+   Method
+========================================== */
+
+function setMethod(
+    newMethod
+){
+
+    method =
+        newMethod;
+
+
+    commentTab.classList.toggle(
+        "active",
+        method === "comment"
+    );
+
+    cloudTab.classList.toggle(
+        "active",
+        method === "cloud"
+    );
+
+
+    if(
+        method === "comment"
+    ){
+
+        instruction.innerHTML = `
+            <b>💬 コメント認証</b><br>
+            1. 認証プロジェクトを開く<br>
+            2. コメント欄に認証コードをそのまま投稿<br>
+            3. 投稿後、この画面で自動的に認証確認
+        `;
+
+    }else{
+
+        instruction.innerHTML = `
+            <b>☁️ クラウド変数認証</b><br>
+            1. 認証プロジェクトを開く<br>
+            2. <b>☁ AuthCode</b> に表示されたコードを設定<br>
+            3. サーバーがクラウドログを自動確認
+        `;
+    }
+}
+
+
+commentTab.addEventListener(
+    "click",
+    () => setMethod("comment")
+);
+
+
+cloudTab.addEventListener(
+    "click",
+    () => setMethod("cloud")
+);
+
+
+/* ==========================================
+   API
+========================================== */
+
+async function api(
+    url,
+    options = {}
+){
+
+    const response =
+        await fetch(
+            url,
+            {
+                ...options,
+
+                headers:{
+                    "Content-Type":
+                        "application/json",
+
+                    ...(options.headers || {})
+                }
+            }
+        );
+
+
+    let data;
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch{
+
+        throw new Error(
+            "サーバーから不正な応答が返されました。"
+        );
+    }
+
+
+    if(!response.ok){
+
+        throw new Error(
+            data.message ||
+            "APIエラー"
+        );
+    }
+
+
+    return data;
+}
+
+
+/* ==========================================
+   Start
+========================================== */
+
+async function startAuth(){
+
+    const name =
+        username.value.trim();
+
+
+    if(!name){
+
+        showStatus(
+            "Scratchユーザー名を入力してください。",
+            "error"
+        );
+
+        return;
+    }
+
+
+    startButton.disabled =
+        true;
+
+    startButton.textContent =
+        "認証コードを発行中…";
+
+
+    try{
+
+        const data =
+            await api(
+                "/api/auth/start",
+                {
+
+                    method:"POST",
+
+                    body:JSON.stringify({
+
+                        username:
+                            name,
+
+                        method
+                    })
+                }
+            );
+
+
+        currentUsername =
+            data.username;
+
+        currentCode =
+            data.code;
+
+        expiresAt =
+            data.expiresAt;
+
+
+        code.textContent =
+            data.code;
+
+
+        thumbnail.src =
+            `https://uploads.scratch.mit.edu/projects/thumbnails/${data.projectId}.png`;
+
+
+        openProject.onclick =
+            () => {
+
+                window.open(
+                    data.projectUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+            };
+
+
+        if(
+            method === "cloud"
+        ){
+
+            instruction.innerHTML = `
+                <b>☁️ クラウド変数認証</b><br><br>
+
+                Scratchプロジェクトを開き、<br>
+
+                <b>☁ AuthCode</b>
+
+                というクラウド変数に<br>
+
+                <b>${escapeHtml(data.code)}</b>
+
+                を設定してください。<br><br>
+
+                設定後は自動的に認証確認します。
+            `;
+
+        }else{
+
+            instruction.innerHTML = `
+                <b>💬 コメント認証</b><br><br>
+
+                Scratchプロジェクトを開き、<br>
+
+                コメント欄に<br>
+
+                <b>${escapeHtml(data.code)}</b>
+
+                とそのまま投稿してください。<br><br>
+
+                投稿後は自動的に認証確認します。
+            `;
+        }
+
+
+        verifyArea.classList.remove(
+            "hidden"
+        );
+
+
+        loadProject();
+
+        startCountdown();
+
+        startPolling();
+
+        showStatus(
+            "認証待機中です…",
+            "info"
+        );
+
+
+    }catch(error){
+
+        showStatus(
+            error.message,
+            "error"
+        );
+
+    }finally{
+
+        startButton.disabled =
+            false;
+
+        startButton.textContent =
+            "認証コードを発行";
+    }
+}
+
+
+/* ==========================================
+   Project
+========================================== */
+
+async function loadProject(){
+
+    try{
+
+        const data =
+            await api(
+                "/api/project"
+            );
+
+
+        projectTitle.textContent =
+            data.project.title;
+
+
+        projectOwner.textContent =
+            "by " +
+            data.project.author;
+
+
+        if(
+            data.project.thumbnail
+        ){
+
+            thumbnail.src =
+                data.project.thumbnail;
+        }
+
+    }catch(error){
+
+        console.error(error);
+    }
+}
+
+
+/* ==========================================
+   Countdown
+========================================== */
+
+function startCountdown(){
+
+    clearInterval(
+        countdownTimer
+    );
+
+
+    function update(){
+
+        const remaining =
+            Math.max(
+                0,
+                expiresAt -
+                Date.now()
+            );
+
+
+        const seconds =
+            Math.ceil(
+                remaining / 1000
+            );
+
+
+        if(
+            seconds <= 0
+        ){
+
+            timer.textContent =
+                "認証コードの期限切れ";
+
+            stopPolling();
+
+            return;
+        }
+
+
+        const min =
+            Math.floor(
+                seconds / 60
+            );
+
+        const sec =
+            seconds % 60;
+
+
+        timer.textContent =
+            `有効期限 ${min}:${String(sec).padStart(2,"0")}`;
+    }
+
+
+    update();
+
+
+    countdownTimer =
+        setInterval(
+            update,
+            1000
+        );
+}
+
+
+/* ==========================================
+   Poll
+========================================== */
+
+function startPolling(){
+
+    stopPolling();
+
+
+    pollTimer =
+        setInterval(
+            checkAuth,
+            method === "cloud"
+                ? 3000
+                : 4000
+        );
+}
+
+
+function stopPolling(){
+
+    if(pollTimer){
+
+        clearInterval(
+            pollTimer
+        );
+
+        pollTimer =
+            null;
+    }
+}
+
+
+/* ==========================================
+   Check
+========================================== */
+
+async function checkAuth(){
+
+    if(
+        checking ||
+        !currentUsername
+    ){
+        return;
+    }
+
+
+    checking =
+        true;
+
+
+    try{
+
+        const data =
+            await api(
+                "/api/auth/check",
+                {
+
+                    method:"POST",
+
+                    body:JSON.stringify({
+
+                        username:
+                            currentUsername
+                    })
+                }
+            );
+
+
+        if(
+            data.authenticated
+        ){
+
+            stopPolling();
+
+            clearInterval(
+                countdownTimer
+            );
+
+
+            localStorage.setItem(
+                "scratchAuthToken",
+                data.sessionToken
+            );
+
+            localStorage.setItem(
+                "lastUsername",
+                data.user.username
+            );
+
+
+            showSuccess(
+                data.user,
+                data.method
+            );
+
+
+            return;
+        }
+
+
+        if(
+            method === "cloud"
+        ){
+
+            showStatus(
+                "☁️ クラウド変数を確認中…",
+                "info"
+            );
+
+        }else{
+
+            showStatus(
+                "💬 コメントを確認中…",
+                "info"
+            );
+        }
+
+
+    }catch(error){
+
+        console.error(error);
+
+    }finally{
+
+        checking =
+            false;
+    }
+}
+
+
+/* ==========================================
+   Success
+========================================== */
+
+async function showSuccess(
+    user,
+    authMethod
+){
+
+    loginView.classList.add(
+        "hidden"
+    );
+
+    successView.classList.remove(
+        "hidden"
+    );
+
+
+    successUsername.textContent =
+        user.username;
+
+
+    successMethod.textContent =
+        authMethod === "cloud"
+            ? "☁️ クラウド変数認証"
+            : "💬 コメント認証";
+
+
+    try{
+
+        const data =
+            await api(
+                "/api/scratch/user/" +
+                encodeURIComponent(
+                    user.username
+                )
+            );
+
+
+        const image =
+            data.user?.profile
+                ?.images?.["90x90"];
+
+
+        if(image){
+
+            avatar.src =
+                image;
+        }
+
+    }catch(error){
+
+        console.error(error);
+    }
+}
+
+
+/* ==========================================
+   Quick Sign In
+========================================== */
+
+function showQuickSignIn(
+    savedUsername
+){
+
+    quickName.textContent =
+        savedUsername;
+
+
+    quickAvatar.src =
+        "https://cdn2.scratch.mit.edu/get_image/user/" +
+        encodeURIComponent(savedUsername) +
+        "_60x60.png";
+
+
+    quickSignIn.classList.remove(
+        "hidden"
+    );
+}
+
+
+quickBtn.addEventListener(
+    "click",
+    () => {
+
+        const savedUsername =
+            localStorage.getItem(
+                "lastUsername"
+            );
+
+
+        if(savedUsername){
+
+            username.value =
+                savedUsername;
+
+            quickSignIn.classList.add(
+                "hidden"
+            );
+
+            startAuth();
+        }
+    }
+);
+
+
+/* ==========================================
+   Restore
+========================================== */
+
+async function restore(){
+
+    const token =
+        localStorage.getItem(
+            "scratchAuthToken"
+        );
+
+
+    if(!token){
+
+        /* セッションなし → クイックサインイン表示 */
+
+        const savedUsername =
+            localStorage.getItem(
+                "lastUsername"
+            );
+
+
+        if(savedUsername){
+
+            showQuickSignIn(
+                savedUsername
+            );
+        }
+
+        return;
+    }
+
+
+    try{
+
+        const data =
+            await api(
+                "/api/auth/me",
+                {
+
+                    headers:{
+                        Authorization:
+                            "Bearer " +
+                            token
+                    }
+                }
+            );
+
+
+        if(
+            data.authenticated
+        ){
+
+            showSuccess(
+                data.user,
+                data.method
+            );
+
+        }else{
+
+            /* セッション期限切れ → クイックサインイン */
+
+            localStorage.removeItem(
+                "scratchAuthToken"
+            );
+
+
+            const savedUsername =
+                localStorage.getItem(
+                    "lastUsername"
+                );
+
+
+            if(savedUsername){
+
+                showQuickSignIn(
+                    savedUsername
+                );
+            }
+        }
+
+    }catch{
+
+        localStorage.removeItem(
+            "scratchAuthToken"
+        );
+
+
+        const savedUsername =
+            localStorage.getItem(
+                "lastUsername"
+            );
+
+
+        if(savedUsername){
+
+            showQuickSignIn(
+                savedUsername
+            );
+        }
+    }
+}
+
+
+/* ==========================================
+   Logout
+========================================== */
+
+async function doLogout(){
+
+    const token =
+        localStorage.getItem(
+            "scratchAuthToken"
+        );
+
+
+    if(token){
+
+        try{
+
+            await api(
+                "/api/auth/logout",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        Authorization:
+                            "Bearer " +
+                            token
+                    }
+                }
+            );
+
+        }catch{}
+    }
+
+
+    localStorage.removeItem(
+        "scratchAuthToken"
+    );
+
+
+    currentUsername =
+        "";
+
+    currentCode =
+        "";
+
+    stopPolling();
+
+
+    successView.classList.add(
+        "hidden"
+    );
+
+    loginView.classList.remove(
+        "hidden"
+    );
+
+    verifyArea.classList.add(
+        "hidden"
+    );
+
+    username.value =
+        "";
+
+    showStatus(
+        "",
+        ""
+    );
+}
+
+
+/* ==========================================
+   Status
+========================================== */
+
+function showStatus(
+    message,
+    type = "info"
+){
+
+    status.textContent =
+        message;
+
+    status.className =
+        "status " +
+        type;
+}
+
+
+/* ==========================================
+   HTML escape
+========================================== */
+
+function escapeHtml(
+    value
+){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* ==========================================
+   Events
+========================================== */
+
+startButton.addEventListener(
+    "click",
+    startAuth
+);
+
+
+checkButton.addEventListener(
+    "click",
+    checkAuth
+);
+
+
+logout.addEventListener(
+    "click",
+    doLogout
+);
+
+
+username.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Enter"
+        ){
+
+            startAuth();
+        }
+    }
+);
+
+
+/* ==========================================
+   Init
+========================================== */
+
+setMethod(
+    "comment"
+);
+
+restore();
+
+</script>
+
+</body>
+
+</html>
